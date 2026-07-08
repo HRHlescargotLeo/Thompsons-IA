@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thompsons Digital Platform — Proposed Site Structure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A;
+    --navy-deep:#101c33;
+    --paper:#F3F1EC;
+    --paper-2:#FFFFFF;
+    --ink:#22262E;
+    --ink-soft:#5B6270;
+    --brick:#9E1B32;
+    --brick-light:#F7E4E7;
+    --brick-dark:#6E1322;
+    --leaf-bg:#EEF0F1;
+    --leaf-border:#C9CDD3;
+    --line:#C9CDD3;
+    --ext:#2C6E5C;
+    --ext-bg:#E4F0EC;
+    --radius:10px;
+    --shadow:0 1px 2px rgba(20,24,33,.06), 0 6px 16px rgba(20,24,33,.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  .topbar{
+    background:var(--navy);
+    color:#fff;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .brand-left, .brand-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:140px;
+  }
+  .brand-right{ justify-content:flex-end; }
+  .brand-left img{ height:26px; width:auto; display:block; filter:brightness(0) invert(1); opacity:.92; }
+  .brand-right img{ height:30px; width:auto; display:block; }
+  .brand-label{ font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#B9C1D6; }
+  .title-block{
+    text-align:center;
+    flex:1;
+    min-width:280px;
+  }
+  .title-block h1{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0 0 2px;
+    color:#fff;
+  }
+  .title-block p{
+    margin:0;
+    font-size:13px;
+    color:#AEB8CE;
+  }
+
+  .toolbar{
+    background:var(--paper-2);
+    border-bottom:1px solid var(--line);
+    padding:14px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  .crumbs{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:4px;
+    font-size:14px;
+  }
+  .crumb{
+    background:none;
+    border:none;
+    font:inherit;
+    color:var(--ink-soft);
+    cursor:pointer;
+    padding:6px 10px;
+    border-radius:6px;
+    font-weight:500;
+  }
+  .crumb:hover{ background:var(--leaf-bg); color:var(--ink); }
+  .crumb.current{ color:var(--navy); font-weight:600; cursor:default; }
+  .crumb.current:hover{ background:none; }
+  .crumb-sep{ color:#B7BCC5; font-size:13px; }
+
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:9px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .back-btn:disabled{ background:#C9CDD3; color:#7d828c; cursor:default; }
+  .back-btn:not(:disabled):hover{ background:var(--navy-deep); }
+
+  .legend{
+    display:flex;
+    gap:18px;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding:10px 32px 0;
+    flex-wrap:wrap;
+  }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .dot.click{ background:var(--brick); }
+  .dot.leaf{ background:var(--leaf-border); }
+  .dot.ext{ background:var(--ext); }
+
+  main{
+    max-width:1120px;
+    margin:0 auto;
+    padding:28px 32px 64px;
+  }
+
+  .focus-card{
+    background:var(--navy);
+    color:#fff;
+    border-radius:14px;
+    padding:22px 26px;
+    margin-bottom:6px;
+    box-shadow:var(--shadow);
+  }
+  .focus-card .eyebrow{
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#AEB8CE;
+    margin-bottom:6px;
+  }
+  .focus-card h2{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:26px;
+    margin:0 0 6px;
+  }
+  .focus-card p{
+    margin:0;
+    font-size:14px;
+    color:#CBD3E4;
+    max-width:640px;
+  }
+  .focus-meta{
+    margin-top:10px;
+    font-size:12px;
+    color:#9FAAC4;
+  }
+
+  .connector{
+    height:28px;
+    display:flex;
+    justify-content:center;
+  }
+  .connector::before{
+    content:"";
+    width:1px;
+    background:var(--line);
+    height:100%;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:14px;
+  }
+
+  .node-card{
+    position:relative;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-left:4px solid var(--leaf-border);
+    border-radius:var(--radius);
+    padding:14px 16px 14px 14px;
+    cursor:default;
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .node-card.clickable{
+    border-left-color:var(--brick);
+    cursor:pointer;
+  }
+  .node-card.clickable:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--shadow);
+    border-color:var(--brick);
+  }
+  .node-card.external{
+    border-left-color:var(--ext);
+    cursor:pointer;
+    background:var(--ext-bg);
+  }
+  .node-card.external:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--shadow);
+  }
+  .node-card .row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .node-card .label{
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1.35;
+  }
+  .node-card.external .label{ color:var(--ext); }
+  .node-card .chev{
+    flex:none;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--brick-light);
+    color:var(--brick);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    margin-top:1px;
+  }
+  .node-card.external .chev{ background:#fff; color:var(--ext); }
+  .node-card .desc{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    line-height:1.4;
+  }
+  .node-card .sub{
+    font-size:11px;
+    color:var(--brick-dark);
+    margin-top:8px;
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  .node-card.external .sub{ color:var(--ext); }
+  .node-card:not(.clickable):not(.external) .sub{ color:#8a8f98; }
+
+  footer.page-footer{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding:20px 32px 40px;
+  }
+
+  @media (max-width:640px){
+    .topbar{ flex-direction:column; text-align:center; }
+    .brand-left, .brand-right{ justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand-left">
+    <img src="https://www.clerkswell.com/media/hgulgxlx/logo-white-1-1.png" alt="ClerksWell">
+    <span class="brand-label">Prepared by ClerksWell</span>
+  </div>
+  <div class="title-block">
+    <h1>Thompsons Digital Platform</h1>
+    <p>Proposed site structure — click any highlighted item to explore</p>
+  </div>
+  <div class="brand-right">
+    <img src="https://www.thompsons.law/media/5887/ts-logo-2023.svg" alt="Thompsons Solicitors">
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="crumbs" id="crumbs"></div>
+  <button class="back-btn" id="backBtn">&#8592; Back</button>
+</div>
+
+<div class="legend">
+  <span><i class="dot click"></i> Has more pages beneath it — click to explore</span>
+  <span><i class="dot leaf"></i> End of this branch — no further pages</span>
+  <span><i class="dot ext"></i> External site (opens in a new tab)</span>
+</div>
+
+<main>
+  <div class="focus-card" id="focusCard"></div>
+  <div class="connector"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer class="page-footer">
+  Thompsons Digital Platform RFP — proposed information architecture, based on the current thompsons.law structure and the agreed RFP requirements.
+</footer>
+
+<script>
+const TREE = {"id": "home", "label": "Home", "desc": "Homepage", "children": [{"id": "start-claim", "label": "Start a Claim", "desc": "Primary enquiry funnel, persistent header CTA"}, {"id": "existing-clients", "label": "Existing Clients", "desc": "Portal link, case status help, existing-client contact", "children": [{"id": "client-portal", "label": "Client Portal", "desc": "Link through to claimant case portal (redevelopment out of RFP scope)"}, {"id": "existing-client-faqs", "label": "Existing Client FAQs"}]}, {"id": "services", "label": "Services", "desc": "Mega menu \u2013 9 practice area families", "children": [{"id": "svc-pi", "label": "Personal Injury Claims", "children": [{"id": "svc-pi-child", "label": "Child Accident Claims"}, {"id": "svc-pi-public", "label": "Accidents in Public Places Claims"}, {"id": "svc-pi-slips", "label": "Slips, Trips and Falls Claims"}, {"id": "svc-pi-foreign", "label": "Foreign Accident Claims"}, {"id": "svc-pi-team", "label": "Meet the Personal Injury Team", "desc": "New \u2013 cross-links to Our People"}]}, {"id": "svc-serious", "label": "Serious Injury Claims", "children": [{"id": "svc-serious-spinal", "label": "Spinal Cord Injury Claims"}, {"id": "svc-serious-brain", "label": "Brain Injury Claims"}, {"id": "svc-serious-amputation", "label": "Amputation Claims"}, {"id": "svc-serious-burns", "label": "Serious Burn Injury Claims"}, {"id": "svc-serious-fatal", "label": "Fatal Accident Claims"}, {"id": "svc-serious-cauda", "label": "Cauda Equina Syndrome Claims"}, {"id": "svc-serious-team", "label": "Meet the Serious Injury Team", "desc": "New \u2013 cross-links to Our People"}]}, {"id": "svc-mednegl", "label": "Medical Negligence Claims", "children": [{"id": "svc-mn-cerebral", "label": "Cerebral Palsy Claims"}, {"id": "svc-mn-birth", "label": "Birth Injury Claims"}, {"id": "svc-mn-operation", "label": "Operation Claims"}, {"id": "svc-mn-misdiag", "label": "Misdiagnosis Claims"}, {"id": "svc-mn-scaphoid", "label": "Scaphoid Fracture Claims"}, {"id": "svc-mn-hospital", "label": "Hospital Negligence Claims"}, {"id": "svc-mn-product", "label": "Product Liability Claims"}, {"id": "svc-mn-doctor", "label": "Doctor Negligence Claims"}, {"id": "svc-mn-vaginalmesh", "label": "Vaginal Mesh Claims"}, {"id": "svc-mn-ortho", "label": "Orthopaedic Claims"}, {"id": "svc-mn-rectalmesh", "label": "Rectal Mesh Claims"}, {"id": "svc-mn-tear", "label": "Childbirth Tear Claims"}, {"id": "svc-mn-cancer", "label": "Cancer Misdiagnosis Claims"}, {"id": "svc-mn-sepsis", "label": "Sepsis Claims"}, {"id": "svc-mn-team", "label": "Meet the Medical Negligence Team", "desc": "New \u2013 cross-links to Our People"}]}, {"id": "svc-asbestos", "label": "Asbestos Disease Claims", "children": [{"id": "svc-asb-meso", "label": "Mesothelioma Claims"}, {"id": "svc-asb-pleural", "label": "Pleural Thickening Claims"}, {"id": "svc-asb-lung", "label": "Lung Cancer Claims"}, {"id": "svc-asb-asbestosis", "label": "Asbestosis Claims"}, {"id": "svc-asb-team", "label": "Meet the Asbestos Disease Team", "desc": "New \u2013 cross-links to Our People"}]}, {"id": "svc-work", "label": "Accident at Work Claims", "children": [{"id": "svc-work-slips", "label": "Slips, Trips and Falls at Work Claims"}, {"id": "svc-work-manual", "label": "Manual Handling Injury Claims"}, {"id": "svc-work-crush", "label": "Crush Injury Claims"}, {"id": "svc-work-military", "label": "Military Injury Claims"}, {"id": "svc-work-cold", "label": "Cold Injury Claims"}, {"id": "svc-work-back", "label": "Back Injury at Work Claims"}, {"id": "svc-work-assault", "label": "Workplace Assault Claims"}, {"id": "svc-work-strain", "label": "Strain Injury Claims"}, {"id": "svc-work-farm", "label": "Farm Accident and Injury Claims"}, {"id": "svc-work-forklift", "label": "Forklift Accident Claims"}, {"id": "svc-work-construction", "label": "Construction Accident Claims"}, {"id": "svc-work-factory", "label": "Factory Accident Claims"}, {"id": "svc-work-team", "label": "Meet the Accident at Work Team", "desc": "New \u2013 cross-links to Our People"}]}, {"id": "svc-rta", "label": "Road Traffic Accident Claims", "children": [{"id": "svc-rta-pedestrian", "label": "Pedestrian Accident Claims"}, {"id": "svc-rta-motorcycle", "label": "Motorcycle Accident Claims"}, {"id": "svc-rta-cycling", "label": "Cycling Accident Claims"}, {"id": "svc-rta-car", "label": "Car Accident Claims"}, {"id": "svc-rta-fatal", "label": "Fatal Road Traffic Accident Claims"}]}, {"id": "svc-indisease", "label": "Industrial Disease Claims", "children": [{"id": "svc-ind-respiratory", "label": "Respiratory and Lung Disease Claims"}, {"id": "svc-ind-skin", "label": "Skin Disease Claims"}, {"id": "svc-ind-vibration", "label": "Vibration Injury Claims"}, {"id": "svc-ind-cancer", "label": "Occupational Cancer Claims"}, {"id": "svc-ind-silicosis", "label": "Silicosis Claims"}]}, {"id": "svc-settlement", "label": "Settlement Agreements", "children": [{"id": "svc-settlement-large", "label": "Large-scale Settlement Agreements"}]}, {"id": "svc-more", "label": "More Legal Services", "children": [{"id": "svc-more-poa", "label": "Power of Attorney Solicitors"}, {"id": "svc-more-cop", "label": "Court of Protection and Deputyship"}, {"id": "svc-more-wills", "label": "Wills and Probate Solicitors"}, {"id": "svc-more-crime", "label": "Criminal Law Services"}, {"id": "svc-more-conveyancing", "label": "Conveyancing"}]}]}, {"id": "support", "label": "Support & Advice", "children": [{"id": "sup-how", "label": "How to Make a Claim", "children": [{"id": "sup-how-fees", "label": "Solicitors Fees and Payments"}, {"id": "sup-how-survey", "label": "Client Care Survey"}, {"id": "sup-how-nwnf", "label": "What is No Win, No Fee?"}, {"id": "sup-how-time", "label": "Time Limits"}, {"id": "sup-how-damages", "label": "Introduction to Personal Injury Damages"}, {"id": "sup-how-multiparty", "label": "What is a Multi-party Claim?"}, {"id": "sup-how-asbestos", "label": "How to Make an Asbestos Claim"}, {"id": "sup-how-rta", "label": "How to Make a Road Traffic Accident Claim"}, {"id": "sup-how-mednegl", "label": "How to Make a Medical Negligence Claim"}, {"id": "sup-how-serious", "label": "How to Make a Serious Injury Claim"}, {"id": "sup-how-work", "label": "How to Make an Accident at Work Claim"}]}, {"id": "sup-guides", "label": "Legal Guides", "desc": "Filterable guide library", "children": [{"id": "sup-guides-pi", "label": "Personal Injury Guides"}, {"id": "sup-guides-mn", "label": "Medical Negligence Guides"}, {"id": "sup-guides-asbestos", "label": "Asbestos Disease Guides"}, {"id": "sup-guides-work", "label": "Workplace Injury Guides"}, {"id": "sup-guides-serious", "label": "Life-Changing Injury Guides"}, {"id": "sup-guides-silicosis", "label": "Silicosis Guides"}]}, {"id": "sup-faqs", "label": "FAQs", "desc": "New \u2013 SEO-optimised, homepage accordion + standalone hub"}, {"id": "sup-clients", "label": "Client Stories", "desc": "Renamed from \u2018Our Clients\u2019", "children": [{"id": "sup-clients-pi", "label": "Personal Injury Client Stories"}, {"id": "sup-clients-rta", "label": "Road Traffic Accident Client Stories"}, {"id": "sup-clients-serious", "label": "Serious Injury Client Stories"}, {"id": "sup-clients-asbestos", "label": "Asbestos Disease Client Stories"}, {"id": "sup-clients-industrial", "label": "Industrial Disease Client Stories"}, {"id": "sup-clients-mednegl", "label": "Medical Negligence Client Stories"}, {"id": "sup-clients-work", "label": "Accident at Work Client Stories"}]}, {"id": "sup-charities", "label": "Charities and Support Groups", "children": [{"id": "sup-char-mn", "label": "Medical Negligence Support"}, {"id": "sup-char-sia", "label": "The Spinal Injuries Association"}, {"id": "sup-char-headway", "label": "Headway"}, {"id": "sup-char-roadpeace", "label": "RoadPeace"}, {"id": "sup-char-avsg", "label": "Asbestos Victims Support Groups Forum"}, {"id": "sup-char-meso-uk", "label": "Mesothelioma UK"}, {"id": "sup-char-rbl", "label": "Royal British Legion"}, {"id": "sup-char-cerebra", "label": "Cerebra"}, {"id": "sup-char-paterson", "label": "Ian Paterson Independent Reviews"}, {"id": "sup-char-lasag", "label": "London Asbestos Support Awareness Group"}, {"id": "sup-char-mesh", "label": "Sling the Mesh"}, {"id": "sup-char-ukabif", "label": "UKABIF"}]}]}, {"id": "about", "label": "About", "children": [{"id": "about-thompsons", "label": "About Thompsons"}, {"id": "about-pledge", "label": "Our Pledge"}, {"id": "about-people", "label": "Our People", "desc": "Searchable by name, discipline, location", "children": [{"id": "people-exec", "label": "Executive Board"}, {"id": "people-regional", "label": "Regional Managing Partners"}, {"id": "people-pi", "label": "Personal Injury Lawyers"}, {"id": "people-serious", "label": "Serious Injury Experts"}, {"id": "people-asbestos", "label": "Asbestos Disease Experts"}, {"id": "people-mednegl", "label": "Medical Negligence Experts"}, {"id": "people-industrial", "label": "Industrial Disease Experts"}, {"id": "people-work", "label": "Accident at Work Experts"}]}, {"id": "about-offices", "label": "Our Offices", "desc": "9 regions", "children": [{"id": "office-london", "label": "London and Eastern"}, {"id": "office-midlands", "label": "Midlands"}, {"id": "office-northeast", "label": "North East"}, {"id": "office-ni", "label": "Northern Ireland"}, {"id": "office-northwest", "label": "North West"}, {"id": "office-southeast", "label": "South East"}, {"id": "office-southwest", "label": "South West"}, {"id": "office-wales", "label": "Wales"}, {"id": "office-yorkshire", "label": "Yorkshire"}]}, {"id": "about-careers", "label": "Careers"}, {"id": "about-governance", "label": "Governance and Regulation", "children": [{"id": "about-regulatory", "label": "Regulatory"}]}, {"id": "about-awards", "label": "Awards & Accreditations", "desc": "New \u2013 consolidates Legal 500 / The Times / Chambers with a verify-our-claims page"}]}, {"id": "news", "label": "News & Insight", "desc": "Renamed from \u2018News\u2019", "children": [{"id": "news-releases", "label": "News Releases", "children": [{"id": "news-pi", "label": "Personal Injury News"}, {"id": "news-rta", "label": "Road Traffic Accident News"}, {"id": "news-serious", "label": "Serious Injury News"}, {"id": "news-asbestos", "label": "Asbestos Disease News"}, {"id": "news-industrial", "label": "Industrial Disease News"}, {"id": "news-mednegl", "label": "Medical Negligence News"}, {"id": "news-work", "label": "Accident at Work News"}, {"id": "news-firm", "label": "Our Firm News"}, {"id": "news-charity", "label": "Our Charity Work"}, {"id": "news-cotw", "label": "Case of the Week"}]}, {"id": "news-campaigns", "label": "Campaigns", "children": [{"id": "camp-pbp", "label": "Patients Before Profits"}, {"id": "camp-asbestos", "label": "Asbestos: Past, But Present"}, {"id": "camp-worker", "label": "For Every Worker Injured"}, {"id": "camp-standing", "label": "Standing Up For You"}, {"id": "camp-mesh", "label": "Say No To Mesh"}, {"id": "camp-paterson", "label": "Justice for Victims of Ian Paterson"}, {"id": "camp-roadsafe", "label": "#StayRoadSafe"}, {"id": "camp-travelsafe", "label": "#TravelSafe"}, {"id": "camp-fatcats", "label": "Feeding Fat Cats"}, {"id": "camp-smallclaims", "label": "Small Claims Big Impact"}]}, {"id": "news-commentary", "label": "Commentary", "children": [{"id": "comm-pi", "label": "Personal Injury Commentary"}, {"id": "comm-rta", "label": "Road Traffic Accidents Commentary"}, {"id": "comm-serious", "label": "Serious Injury Commentary"}, {"id": "comm-asbestos", "label": "Asbestos Disease Commentary"}, {"id": "comm-industrial", "label": "Industrial Disease Commentary"}, {"id": "comm-mednegl", "label": "Medical Negligence Commentary"}, {"id": "comm-work", "label": "Accident at Work Commentary"}, {"id": "comm-more", "label": "More Legal Services Commentary"}]}, {"id": "news-newsletters", "label": "Newsletters", "children": [{"id": "news-newsletter-sub", "label": "Newsletter Subscription"}]}, {"id": "news-press", "label": "Our Press Office"}]}, {"id": "contact", "label": "Contact Us", "desc": "Enquiry form by type, office finder, callback widget"}, {"id": "trade-union", "label": "Thompsons Trade Union Law", "desc": "External site \u2013 out of scope for this rebuild", "ext": "https://www.thompsonstradeunion.law/"}]};
+
+let path = [TREE]; // stack of nodes from root to current
+
+function render(){
+  const current = path[path.length - 1];
+
+  // Breadcrumbs
+  const crumbsEl = document.getElementById('crumbs');
+  crumbsEl.innerHTML = '';
+  path.forEach((node, i) => {
+    if(i > 0){
+      const sep = document.createElement('span');
+      sep.className = 'crumb-sep';
+      sep.textContent = '/';
+      crumbsEl.appendChild(sep);
+    }
+    const btn = document.createElement('button');
+    btn.className = 'crumb' + (i === path.length - 1 ? ' current' : '');
+    btn.textContent = node.label;
+    btn.onclick = () => { path = path.slice(0, i + 1); render(); window.scrollTo({top:0, behavior:'smooth'}); };
+    crumbsEl.appendChild(btn);
+  });
+
+  // Back button
+  const backBtn = document.getElementById('backBtn');
+  backBtn.disabled = path.length <= 1;
+  backBtn.onclick = () => { if(path.length > 1){ path = path.slice(0, -1); render(); window.scrollTo({top:0, behavior:'smooth'}); } };
+
+  // Focus card
+  const focusEl = document.getElementById('focusCard');
+  const childCount = (current.children || []).length;
+  focusEl.innerHTML = `
+    <div class="eyebrow">${path.length === 1 ? 'Root' : 'Tier ' + (path.length - 1)}</div>
+    <h2>${current.label}</h2>
+    ${current.desc ? `<p>${current.desc}</p>` : ''}
+    <div class="focus-meta">${childCount ? childCount + ' item' + (childCount === 1 ? '' : 's') + ' beneath this page' : 'This page has no further sub-pages'}</div>
+  `;
+
+  // Grid of children
+  const gridEl = document.getElementById('grid');
+  gridEl.innerHTML = '';
+  (current.children || []).forEach(child => {
+    const card = document.createElement('div');
+    const hasKids = child.children && child.children.length;
+    const isExt = !!child.ext;
+    card.className = 'node-card' + (hasKids ? ' clickable' : '') + (isExt ? ' external' : '');
+    card.innerHTML = `
+      <div class="row">
+        <div class="label">${child.label}</div>
+        ${hasKids ? '<div class="chev">&#8250;</div>' : (isExt ? '<div class="chev">&#8599;</div>' : '')}
+      </div>
+      ${child.desc ? `<div class="desc">${child.desc}</div>` : ''}
+      <div class="sub">${isExt ? 'External site' : (hasKids ? child.children.length + ' sub-page' + (child.children.length === 1 ? '' : 's') : 'Page')}</div>
+    `;
+    if(isExt){
+      card.onclick = () => window.open(child.ext, '_blank');
+    } else if(hasKids){
+      card.onclick = () => { path = path.concat([child]); render(); window.scrollTo({top:0, behavior:'smooth'}); };
+    }
+    gridEl.appendChild(card);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
